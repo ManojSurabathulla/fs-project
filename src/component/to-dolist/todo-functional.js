@@ -21,17 +21,22 @@ const TodoFunctional = () => {
 
   useEffect(() => {
     localStorage.setItem("list", JSON.stringify(list))
-  },[list])
+  }, [list])
+
+  const showAlert = (show = false, type = "", msg = "") => {
+    setAlert({ show, type, msg })
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(!name) {
+    if (!name) {
       showAlert(true, "danger", 'Please Enter Value');
-    } else if(name && isEditing) {
+    }
+    else if (name && isEditing) {
       setList(
         list.map((item) => {
-          if(item.id === editID) {
-            return {...item, title: name}
+          if (item.id === editID) {
+            return { ...item, title: name }
           }
           return item
         })
@@ -43,25 +48,23 @@ const TodoFunctional = () => {
     }
     else {
       showAlert(true, "success", "Item Added to List");
-      const newItem = {id: new Date().getTime().toString(), title: name}
+      const newItem = { id: new Date().getTime().toString(), title: name }
+      //
       setList([...list, newItem]);
       setName("");
     }
   };
-  const showAlert = (show = false, type= "", msg="") => {
-    setAlert({show, type, msg})
-  };
-  const removeItem =(id) => {
+  const removeItem = (id) => {
     showAlert(true, "danger", "Item Removed")
-    setList(list.filter((item)=> item.id !== id))
+    setList(list.filter((item) => item.id !== id))
   };
-  const editItem =(id) => {
+  const editItem = (id) => {
     const editItem = list.find((item) => item.id === id);
     setIsEditing(true);
     setEditID(id);
     setName(editItem.title);
   };
-  const clearList =() => {
+  const clearList = () => {
     showAlert(true, "danger", "Empty List")
     setList([])
   };
@@ -77,7 +80,7 @@ const TodoFunctional = () => {
           </h3>
           <div className='mb-3 form'>
             <input type="text" className='form-control' placeholder='type ur todo' onChange={(e) => setName(e.target.value)} value={name} />
-            <button type='submit' className='btn btn-success' >
+            <button type='submit' className='btn qa-btn-success btn-success' >
               {isEditing ? "Edit" : "Submit"}
             </button>
           </div>
